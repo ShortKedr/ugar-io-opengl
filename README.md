@@ -1,4 +1,5 @@
 # Ugar.io OpenGL
+[![Build Desktop Binaries](https://github.com/ShortKedr/ugar-io-opengl/actions/workflows/build-desktop.yml/badge.svg)](https://github.com/ShortKedr/ugar-io-opengl/actions/workflows/build-desktop.yml)
 
 Simplest single-player copy of Agar.io game, made with C++ and OpenGL.
 

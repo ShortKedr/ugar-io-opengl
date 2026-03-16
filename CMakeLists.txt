@@ -42,7 +42,11 @@ if(WIN32)
     list(APPEND UGAR_IO_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/resources/Ugar.io OpenGL.rc")
 endif()
 
-add_executable(ugar-io-opengl ${UGAR_IO_SOURCES})
+if(WIN32)
+    add_executable(ugar-io-opengl WIN32 ${UGAR_IO_SOURCES})
+else()
+    add_executable(ugar-io-opengl ${UGAR_IO_SOURCES})
+endif()
 
 target_include_directories(ugar-io-opengl PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include" "${CMAKE_CURRENT_SOURCE_DIR}/resources")
 target_link_libraries(ugar-io-opengl PRIVATE glfw OpenGL::GL)

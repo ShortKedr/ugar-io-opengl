@@ -4,20 +4,19 @@
 #include "ugar_io_opengl/GameWindow.h"
 
 int RunApp() {
-	GameWindow::Initialize();
-	GameWindow::Run();
-	return 0;
+    GameWindow::Initialize();
+    GameWindow::Run();
+    return 0;
 }
 
 #if defined(_WIN32)
 #include <windows.h>
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
-	return RunApp();
+    return RunApp();
 }
 #else
 int main() {
-	return RunApp();
+    return RunApp();
 }
 #endif
-

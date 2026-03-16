@@ -8,8 +8,7 @@
 
 Food::Food() = default;
 
-Food::Food(float _radius, const Vector2& _position)
-{
+Food::Food(float _radius, const Vector2& _position) {
     color = Color(std::rand() % 50, std::rand() % 50, std::rand() % 50);
     radius = _radius;
     position = _position;
@@ -24,19 +23,15 @@ void Food::UpdateDrawingRect(float xoffset, float yoffset, float scale) {
     drawingRect.setH(radius * 2.0f * scale);
 }
 
-float Food::GetSquare()
-{
+float Food::GetSquare() {
     return std::numbers::pi_v<float> * radius * radius;
 }
 
-void Food::SetSquare(float square)
-{
+void Food::SetSquare(float square) {
     radius = std::sqrt(square / std::numbers::pi_v<float>);
 }
 
-void Food::Draw()
-{
-	GLBasics::DrawCircle(drawingRect.getX() + drawingRect.getW() / 2.0f, drawingRect.getY() + drawingRect.getH() / 2.0f, drawingRect.getW() / 2.0f, &color);
+void Food::Draw() {
+    GLBasics::DrawCircle(drawingRect.getX() + drawingRect.getW() / 2.0f, drawingRect.getY() + drawingRect.getH() / 2.0f,
+                         drawingRect.getW() / 2.0f, &color);
 }
-
-

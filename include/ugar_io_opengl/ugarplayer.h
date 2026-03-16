@@ -4,9 +4,7 @@
 #include "ugar_io_opengl/ugar.h"
 
 class UgarPlayer : public Ugar {
-
 public:
-
     static const int UP_KEY = GLFW_KEY_W;
     static const int DOWN_KEY = GLFW_KEY_S;
     static const int LEFT_KEY = GLFW_KEY_A;
@@ -20,15 +18,13 @@ public:
 
     void Update() override;
 
-	void KeyboardEvent();
+    void KeyboardEvent();
 
 private:
-   bool upKey = false;
-   bool downKey = false;
-   bool leftKey = false;
-   bool rightKey = false;
-
+    bool upKey = false;
+    bool downKey = false;
+    bool leftKey = false;
+    bool rightKey = false;
 };
 
 #endif // UGARPLAYER_H
-

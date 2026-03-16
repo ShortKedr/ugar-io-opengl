@@ -4,9 +4,7 @@
 #include "ugar_io_opengl/Color.h"
 
 class Line {
-
 public:
-
     Vector2 start;
     Vector2 end;
     Color color;
@@ -22,9 +20,7 @@ public:
 
     void UpdateDrawableLine(float xoffset, float yoffset, float scale);
 
-	void Draw();
-
+    void Draw();
 };
 
 #endif // LINE_H
-

@@ -2,8 +2,7 @@
 #define UGARAI_H
 #include "ugar_io_opengl/ugar.h"
 
-class UgarAI : public Ugar
-{
+class UgarAI : public Ugar {
 public:
     bool isAgressive = false;
 
@@ -13,16 +12,16 @@ public:
     ~UgarAI();
 
     void Update() override;
-    void AssignAIData(Food **_foods, int _foods_count, Ugar **_ugars, int _ugars_count);
+    void AssignAIData(Food** _foods, int _foods_count, Ugar** _ugars, int _ugars_count);
 
 private:
     static const int AGRESSIVE_UPDATE_PERIOD = 15000;
     int agressiveTimer = 0;
 
-    Food **foods = nullptr;
+    Food** foods = nullptr;
     int foods_count = 0;
 
-    Ugar **ugars = nullptr;
+    Ugar** ugars = nullptr;
     int ugars_count = 0;
 
 
@@ -30,4 +29,3 @@ private:
 };
 
 #endif // UGARAI_H
-

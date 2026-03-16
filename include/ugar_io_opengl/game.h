@@ -7,8 +7,7 @@
 #include "ugar_io_opengl/food.h"
 #include "ugar_io_opengl/line.h"
 
-class Game
-{
+class Game {
     static const char* START_GAME_LABEL;
     static const float FONT_SIZE;
 
@@ -28,8 +27,7 @@ class Game
     static const float NORMAL_SCALE_RADIUS;
 
 public:
-
-	std::unique_ptr<Camera> cam;
+    std::unique_ptr<Camera> cam;
     std::array<std::unique_ptr<Ugar>, UGAR_AMOUNT> ugars;
     std::array<std::unique_ptr<Food>, FOOD_AMOUNT> foods;
 
@@ -59,4 +57,3 @@ private:
 };
 
 #endif // GAME_H
-

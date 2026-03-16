@@ -2,33 +2,28 @@
 
 
 Color::Color() {
-	r = 0.0f;
-	g = 0.0f;
-	b = 0.0f;
+    r = 0.0f;
+    g = 0.0f;
+    b = 0.0f;
 }
 
-Color::Color(float _r, float _g, float _b)
-{
-	r = _r;
-	g = _g;
-	b = _b;
+Color::Color(float _r, float _g, float _b) {
+    r = _r;
+    g = _g;
+    b = _b;
 }
 
 
-Color::~Color()
-{
+Color::~Color() {
 }
 
-void Color::setRGB(float _r, float _g, float _b)
-{
-	r = _r;
-	g = _g;
-	b = _b;
+void Color::setRGB(float _r, float _g, float _b) {
+    r = _r;
+    g = _g;
+    b = _b;
 }
 
-Color Color::normalized(float normalize) const
-{
-	float max = 255.0f;
-	return Color((r / max)*normalize, (g / max)*normalize, (b / max)*normalize);
+Color Color::normalized(float normalize) const {
+    float max = 255.0f;
+    return Color((r / max) * normalize, (g / max) * normalize, (b / max) * normalize);
 }
-

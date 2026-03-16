@@ -6,7 +6,6 @@
 
 class Food {
 public:
-
     float radius = 0.5f;
     Vector2 position;
     Color color;
@@ -25,8 +24,6 @@ public:
     void SetSquare(float square);
 
     void Draw();
-
 };
 
 #endif // FOOD_H
-

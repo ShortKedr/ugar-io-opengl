@@ -3,11 +3,9 @@
 #include "ugar_io_opengl/Vector2.h"
 
 class Camera {
-
 public:
-
     Vector2 viewportSize;
-	Vector2 observedPosition;
+    Vector2 observedPosition;
     float scale = 1.0f;
 
 
@@ -21,8 +19,6 @@ public:
 
     void SetCamera(const Vector2& vs, const Vector2& op);
     void SetCamera(const Vector2& vs, const Vector2& op, float _scale);
-
 };
 
 #endif // CAMERA_H
-

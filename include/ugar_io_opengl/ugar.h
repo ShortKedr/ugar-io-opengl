@@ -6,9 +6,7 @@
 #include "ugar_io_opengl/food.h"
 
 class Ugar {
-
 public:
-
     Vector2 position;
 
     float radius = 0.5f;
@@ -31,8 +29,8 @@ public:
     void UpdateDrawingRect(float xoffset, float yoffset, float scale);
     void UpdateSpeedInc();
 
-    bool CheckCollision(Ugar *target, bool *isLesser);
-    bool CheckFoodCollision(Food *target);
+    bool CheckCollision(Ugar* target, bool* isLesser);
+    bool CheckFoodCollision(Food* target);
 
     void SetPosition(float x, float y);
 
@@ -41,7 +39,7 @@ public:
 
     float GetSquare();
     void SetSquare(float square);
-	void Draw();
+    void Draw();
 
 private:
     static const bool INVERT_X = false;
@@ -53,11 +51,9 @@ private:
 
     static const float FRICTION;
 
-	static const float MAX_SPEED_INC;
-	static const float MAX_SPEED_SIZE_DEC;
-	static const float SPEED_SIZE_DEC;
-
+    static const float MAX_SPEED_INC;
+    static const float MAX_SPEED_SIZE_DEC;
+    static const float SPEED_SIZE_DEC;
 };
 
 #endif // UGAR_H
-

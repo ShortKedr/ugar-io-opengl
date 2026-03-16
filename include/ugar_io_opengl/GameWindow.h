@@ -6,18 +6,15 @@
 #include "ugar_io_opengl/GLBasics.h"
 #include "ugar_io_opengl/ugarplayer.h"
 
-namespace GameWindow
-{
+namespace GameWindow {
+    static const int WINDOW_WIDTH = 800;
+    static const int WINDOW_HEIGHT = 600;
 
-	static const  int WINDOW_WIDTH = 800;
-	static const  int WINDOW_HEIGHT = 600;
+    int GetWindowWidth();
+    int GetWindowHeight();
+    bool IsKeyPressed(int key);
 
-	int GetWindowWidth();
-	int GetWindowHeight();
-	bool IsKeyPressed(int key);
-
-	void Initialize();
-	void Run();
+    void Initialize();
+    void Run();
 };
 #endif
-

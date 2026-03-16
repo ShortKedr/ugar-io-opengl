@@ -570,5 +570,7 @@ FodyWeavers.xsd
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio,visualstudiocode,clion,c++
 
-# Repo-local IDE/build outputs
-.idea/
+# CLion work directory
+/.idea/
+# CLion build directories
+/cmake-build-*/

@@ -2,7 +2,7 @@
 
 Simplest single-player copy of Agar.io game, made with C++ and OpenGL.
 
-This project have another implementation with Qt framework: [watch here](https://github.com/ShortKedr-OpenSource/ugar-io-qt).
+This project have another implementation with Qt framework: [watch here](https://github.com/ShortKedr/ugar-io-qt).
 
 ## Gameplay
 [![Gameplay preview](docs/ugario_gameplay.gif)](docs/ugario_gameplay.mov)

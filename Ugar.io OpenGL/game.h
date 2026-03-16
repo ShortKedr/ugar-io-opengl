@@ -8,10 +8,10 @@
 class Game
 {
     static const char* START_GAME_LABEL;
-    static const float FONT_SIZE;// = 20;
+    static const float FONT_SIZE;
 
-    static const float GAME_FIELD_WIDTH;// = 4000;
-    static const float GAME_FIELD_HEIGHT;// = 4000;
+    static const float GAME_FIELD_WIDTH;
+    static const float GAME_FIELD_HEIGHT;
 
     static const int UGAR_AMOUNT = 75;
     static const int FOOD_AMOUNT = 750;
@@ -19,11 +19,11 @@ class Game
     static const int VERT_LINE_AMOUNT = 21;
     static const int HORZ_LINE_AMOUNT = 21;
 
-    static const float CAMERA_LERP;// = 0.05f;
-    static const float SCALE_LERP;// = 0.05f;
+    static const float CAMERA_LERP;
+    static const float SCALE_LERP;
 
-    static const float NORMAL_SCALE_RESOLUTION;// = 768.0f;
-    static const float NORMAL_SCALE_RADIUS;// = 60.0f;
+    static const float NORMAL_SCALE_RESOLUTION;
+    static const float NORMAL_SCALE_RADIUS;
 
 public:
 
@@ -46,8 +46,8 @@ public:
 
 private:
     static const int OBJ_CONTROL_UPDATE_TIME = 300;
-    int objectControlTimer;// = 0;
-    bool isStarted;// = false;
+    int objectControlTimer = 0;
+    bool isStarted = false;
 };
 
 #endif // GAME_H

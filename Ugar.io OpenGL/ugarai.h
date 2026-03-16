@@ -5,7 +5,7 @@
 class UgarAI : public Ugar
 {
 public:
-    bool isAgressive;// = false;
+    bool isAgressive = false;
 
     UgarAI();
     UgarAI(Vector2* _position, float _radius);
@@ -17,13 +17,13 @@ public:
 
 private:
     static const int AGRESSIVE_UPDATE_PERIOD = 15000;
-    int agressiveTimer;// = 0;
+    int agressiveTimer = 0;
 
-    Food **foods;
-    int foods_count;
+    Food **foods = nullptr;
+    int foods_count = 0;
 
-    Ugar **ugars;
-    int ugars_count;
+    Ugar **ugars = nullptr;
+    int ugars_count = 0;
 
 
     float pointDist(Vector2 *first, Vector2 *second);

@@ -9,17 +9,17 @@ class Ugar {
 
 public:
 
-    Vector2 *position;// = new Vector2(0.0, 0.0);
+    Vector2 *position = nullptr;
 
-    float radius;// = 0.5f;
-    float showedRadius;// = 0.5f;
+    float radius = 0.5f;
+    float showedRadius = 0.5f;
 
-    Vector2 *currentSpeed;// = new Vector2(0.0, 0.0);
-    float currentSpeedInc;// = 0.5f;
+    Vector2 *currentSpeed = nullptr;
+    float currentSpeedInc = 0.5f;
 
-    Color *color;// = new Color(0, 0, 0);
+    Color *color = nullptr;
 
-    RectF *drawingRect;// = new RectF(0, 0, 0 ,0);
+    RectF *drawingRect = nullptr;
 
 
     Ugar();
@@ -47,15 +47,15 @@ private:
     static const bool INVERT_X = false;
     static const bool INVERT_Y = true;
 
-    static const float COLLISION_DISTANCE;// = 0.1f;
-    static const float U_DIFFERENCE;// = 0.00001f;
-    static const float SIZE_LERP;// = 0.1f;
+    static const float COLLISION_DISTANCE;
+    static const float U_DIFFERENCE;
+    static const float SIZE_LERP;
 
-    static const float FRICTION;// = 0.1f;
+    static const float FRICTION;
 
-	static const float MAX_SPEED_INC;// = 0.4f;
-	static const float MAX_SPEED_SIZE_DEC;// = 0.35f;
-	static const float SPEED_SIZE_DEC;// = 0.005f;
+	static const float MAX_SPEED_INC;
+	static const float MAX_SPEED_SIZE_DEC;
+	static const float SPEED_SIZE_DEC;
 
 };
 

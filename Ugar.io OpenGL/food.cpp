@@ -1,10 +1,9 @@
 #include "Vector2.h"
 #include "Color.h"
 #include "food.h"
-#include <stdlib.h>
-#include <time.h>
-#define _USE_MATH_DEFINES
-#include <math.h>
+#include <cstdlib>
+#include <cmath>
+#include <numbers>
 #include "GLBasics.h"
 
 Food::Food() {
@@ -19,7 +18,7 @@ Food::Food(float _radius, Vector2 *_position)
     position = new Vector2();
     drawingRect = new RectF(0, 0 ,0 ,0);
 
-    color = new Color(rand()%50, rand()%50, rand()%50);
+    color = new Color(std::rand() % 50, std::rand() % 50, std::rand() % 50);
     radius = _radius;
     *position = *_position;
 }
@@ -40,12 +39,12 @@ void Food::UpdateDrawingRect(float xoffset, float yoffset, float scale) {
 
 float Food::GetSquare()
 {
-    return M_PI * radius * radius;
+    return std::numbers::pi_v<float> * radius * radius;
 }
 
 void Food::SetSquare(float square)
 {
-    radius = sqrtf(square / (float)M_PI);
+    radius = std::sqrt(square / std::numbers::pi_v<float>);
 }
 
 void Food::Draw()

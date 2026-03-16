@@ -2,9 +2,9 @@
 #include "Color.h"
 #include "Vector2.h"
 #include "RectF.h"
-#include <stdlib.h>
-#define _USE_MATH_DEFINES
-#include <math.h>
+#include <cstdlib>
+#include <cmath>
+#include <numbers>
 #include "food.h"
 #include "GLBasics.h"
 #include <iostream>
@@ -36,7 +36,7 @@ Ugar::Ugar(Vector2*_position, float _radius)
 	drawingRect = new RectF(0, 0, 0 ,0);
 
 	color = new Color(0, 0, 0);
-    color->setRGB(rand() % 256, rand() % 256, rand() % 256);
+    color->setRGB(std::rand() % 256, std::rand() % 256, std::rand() % 256);
     *position = *_position;
     radius = _radius;
 }
@@ -75,7 +75,7 @@ void Ugar::UpdateSpeedInc()
 
 void Ugar::UpdateSize()
 {
-    if (fabsf(radius-showedRadius) <= U_DIFFERENCE) return;
+    if (std::fabs(radius - showedRadius) <= U_DIFFERENCE) return;
     showedRadius += (radius - showedRadius) * SIZE_LERP;
 }
 
@@ -84,7 +84,7 @@ bool Ugar::CheckFoodCollision(Food *target)
     float xDist = position->x - target->position->x;
     float yDist = position->y - target->position->y;
 
-    float dist = sqrtf(xDist*xDist + yDist*yDist);
+    float dist = std::sqrt(xDist*xDist + yDist*yDist);
     float collisionDist = radius + (target->radius*0.6f);
     if (dist <= collisionDist) return true;
     else return false;
@@ -99,15 +99,16 @@ void Ugar::SetPosition(float x, float y)
 void Ugar::Move(float x, float y)
 {
     UpdateSpeedInc();
-    float sum = fabsf(x)+fabsf(y);
+    float sum = std::fabs(x) + std::fabs(y);
     currentSpeed->x = currentSpeed->x + ((sum != 0.0f) ? x/sum : 0) * currentSpeedInc;
     currentSpeed->y = currentSpeed->y + ((sum != 0.0f) ? y/sum : 0) * currentSpeedInc;
 }
 
 void Ugar::MoveDirection(float direction)
 {
-    float xmul = (float)((INVERT_X) ? -cosf(direction*M_PI/180.0f) : cosf(direction*M_PI/180.0f));
-    float ymul = (float)((INVERT_Y) ? -sinf(direction*M_PI/180.0f) : sinf(direction*M_PI/180.0f));
+    const float radians = direction * std::numbers::pi_v<float> / 180.0f;
+    float xmul = (INVERT_X) ? -std::cos(radians) : std::cos(radians);
+    float ymul = (INVERT_Y) ? -std::sin(radians) : std::sin(radians);
 
     UpdateSpeedInc();
     currentSpeed->x = currentSpeed->x + currentSpeedInc * xmul;
@@ -115,12 +116,12 @@ void Ugar::MoveDirection(float direction)
 }
 
 float Ugar::GetSquare() {
-    return M_PI * radius * radius;
+    return std::numbers::pi_v<float> * radius * radius;
 }
 
 void Ugar::SetSquare(float square)
 {
-    radius = sqrtf(square / (float)M_PI);
+    radius = std::sqrt(square / std::numbers::pi_v<float>);
 }
 
 void Ugar::Draw() {
@@ -132,7 +133,7 @@ bool Ugar::CheckCollision(Ugar *target, bool *isLesser)
     float xDist = position->x - target->position->x;
     float yDist = position->y - target->position->y;
 
-    float dist = sqrtf(xDist*xDist + yDist*yDist);
+    float dist = std::sqrt(xDist*xDist + yDist*yDist);
     float collisionDist = (radius > target->radius) ? radius + (target->radius*0.6f) : (radius * 0.6f) + target->radius;
     if (radius < target->radius) *isLesser = true;
     else *isLesser = false;

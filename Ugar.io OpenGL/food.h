@@ -7,11 +7,11 @@
 class Food {
 public:
 
-    float radius;// = 0.5f;
-    Vector2 *position;// = new Vector2(0.0, 0.0);
-    Color *color;// = new Color(0, 0, 0);
+    float radius = 0.5f;
+    Vector2 *position = nullptr;
+    Color *color = nullptr;
 
-    RectF *drawingRect;// = new RectF(0, 0 ,0 ,0);
+    RectF *drawingRect = nullptr;
 
 
     Food();

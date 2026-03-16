@@ -6,9 +6,9 @@ class Camera {
 
 public:
 
-    Vector2 *viewportSize;// = new Vector2(0, 0);
-	Vector2 *observedPosition;// = new Vector2(0, 0);
-    float scale;// = 1.0f;
+    Vector2 *viewportSize = nullptr;
+	Vector2 *observedPosition = nullptr;
+    float scale = 1.0f;
 
 
     Camera();

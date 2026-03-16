@@ -1,7 +1,6 @@
 #include "game.h"
-#include <string.h>
-#include <time.h>
-#include <stdlib.h>
+#include <ctime>
+#include <cstdlib>
 #include "Color.h"
 #include "ugar.h"
 #include "ugarai.h"
@@ -21,7 +20,7 @@ const float Game::NORMAL_SCALE_RADIUS= 60.0f;
 
 Game::Game()
 {
-    srand(time(NULL));
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
     isStarted = false;
 	objectControlTimer = 0;
@@ -38,14 +37,14 @@ Game::Game()
         horzLines[i] = new Line(new Vector2(0, (i*200)), new Vector2(4000.0, (i*200)), color);
     }
 
-    if (isStarted) ugars[0] = new UgarPlayer(new Vector2(rand() % (int)(GAME_FIELD_WIDTH/2.0f) + GAME_FIELD_WIDTH/2.0f, rand() % (int)(GAME_FIELD_HEIGHT/2.0f) + GAME_FIELD_HEIGHT/2.0f), 5.0f);
+    if (isStarted) ugars[0] = new UgarPlayer(new Vector2(std::rand() % (int)(GAME_FIELD_WIDTH/2.0f) + GAME_FIELD_WIDTH/2.0f, std::rand() % (int)(GAME_FIELD_HEIGHT/2.0f) + GAME_FIELD_HEIGHT/2.0f), 5.0f);
 	else ugars[0] = nullptr;
 	for (int i = 1; i < UGAR_AMOUNT; i++){
-        ugars[i] = new UgarAI(new Vector2(rand() % (int)(GAME_FIELD_WIDTH/2.0f) + GAME_FIELD_WIDTH/2.0f, rand() % (int)(GAME_FIELD_HEIGHT/2.0f) + GAME_FIELD_HEIGHT/2.0f), 5.0f);
+        ugars[i] = new UgarAI(new Vector2(std::rand() % (int)(GAME_FIELD_WIDTH/2.0f) + GAME_FIELD_WIDTH/2.0f, std::rand() % (int)(GAME_FIELD_HEIGHT/2.0f) + GAME_FIELD_HEIGHT/2.0f), 5.0f);
         static_cast<UgarAI*>(ugars[i])->AssignAIData(foods, FOOD_AMOUNT, ugars, UGAR_AMOUNT);
     }
     for (int i = 0; i < FOOD_AMOUNT; i++){
-        foods[i] = new Food(2.0f, new Vector2(rand() % (int)(GAME_FIELD_WIDTH), rand() % (int)(GAME_FIELD_HEIGHT)));
+        foods[i] = new Food(2.0f, new Vector2(std::rand() % (int)(GAME_FIELD_WIDTH), std::rand() % (int)(GAME_FIELD_HEIGHT)));
     }
 }
 
@@ -150,16 +149,16 @@ void Game::ObjectControlUpdate()
     int count = 0;
     for (int i = 0; i < FOOD_AMOUNT; i++) {
         if (foods[i] == nullptr && count < 50) {
-            foods[i] = new Food(2.0f, new Vector2(rand() % (int)(GAME_FIELD_WIDTH), rand() % (int)(GAME_FIELD_HEIGHT)));
+            foods[i] = new Food(2.0f, new Vector2(std::rand() % (int)(GAME_FIELD_WIDTH), std::rand() % (int)(GAME_FIELD_HEIGHT)));
             count++;
         }
     }
 
     count = 0;
-    if (ugars[0] == nullptr && isStarted) ugars[0] = new UgarPlayer(new Vector2(rand() % (int)(GAME_FIELD_WIDTH/2.0f) + GAME_FIELD_WIDTH/2.0f, rand() % (int)(GAME_FIELD_HEIGHT/2.0f) + GAME_FIELD_HEIGHT/2.0f), 5.0f);
+    if (ugars[0] == nullptr && isStarted) ugars[0] = new UgarPlayer(new Vector2(std::rand() % (int)(GAME_FIELD_WIDTH/2.0f) + GAME_FIELD_WIDTH/2.0f, std::rand() % (int)(GAME_FIELD_HEIGHT/2.0f) + GAME_FIELD_HEIGHT/2.0f), 5.0f);
     for (int i = 1; i < UGAR_AMOUNT; i++) {
         if (ugars[i] == nullptr && count < 2) {
-            ugars[i] = new UgarAI(new Vector2(rand() % (int)(GAME_FIELD_WIDTH/2.0f) + GAME_FIELD_WIDTH/2.0f, rand() % (int)(GAME_FIELD_HEIGHT/2.0f) + GAME_FIELD_HEIGHT/2.0f), 5.0f);
+            ugars[i] = new UgarAI(new Vector2(std::rand() % (int)(GAME_FIELD_WIDTH/2.0f) + GAME_FIELD_WIDTH/2.0f, std::rand() % (int)(GAME_FIELD_HEIGHT/2.0f) + GAME_FIELD_HEIGHT/2.0f), 5.0f);
             static_cast<UgarAI*>(ugars[i])->AssignAIData(foods, FOOD_AMOUNT, ugars, UGAR_AMOUNT);
             count++;
         }

@@ -1,9 +1,9 @@
-#include <math.h>
+#include <cmath>
 #include "ugarai.h"
 #include "ugar.h"
 #include "Vector2.h"
 #include "food.h"
-#include <stdlib.h>
+#include <cstdlib>
 
 UgarAI::UgarAI() 
 	: Ugar(){
@@ -25,7 +25,7 @@ void UgarAI::Update()
     Ugar::Update();
 
     if (agressiveTimer > AGRESSIVE_UPDATE_PERIOD){
-        isAgressive = (rand()%101 >= 80) ? true : false;
+        isAgressive = (std::rand() % 101 >= 80);
         agressiveTimer = 0;
     } else agressiveTimer++;
 
@@ -88,5 +88,7 @@ void UgarAI::AssignAIData(Food **_foods, int _foods_count, Ugar **_ugars, int _u
 
 float UgarAI::pointDist(Vector2 *first, Vector2 *second)
 {
-    return sqrtf(powf(first->x-second->x, 2.0f) + powf(first->y-second->y, 2.0f));
+    const float dx = first->x - second->x;
+    const float dy = first->y - second->y;
+    return std::sqrt(dx * dx + dy * dy);
 }

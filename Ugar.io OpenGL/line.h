@@ -7,12 +7,12 @@ class Line {
 
 public:
 
-    Vector2 *start;// = new Vector2();
-    Vector2 *end;// = new Vector2();
-    Color *color;// = new Color();
+    Vector2 *start = nullptr;
+    Vector2 *end = nullptr;
+    Color *color = nullptr;
 
-    Vector2* drawableStart;// = new Vector2();
-    Vector2* drawableEnd;// = new Vector2();
+    Vector2* drawableStart = nullptr;
+    Vector2* drawableEnd = nullptr;
 
 
     Line();

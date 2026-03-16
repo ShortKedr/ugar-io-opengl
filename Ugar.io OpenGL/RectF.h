@@ -2,10 +2,10 @@
 #define RECT_F_H
 
 class RectF {
-	float x;// = 0.0f;
-	float y;// = 0.0f;
-	float w;// = 0.0f;
-	float h;// = 0.0f;
+	float x = 0.0f;
+	float y = 0.0f;
+	float w = 0.0f;
+	float h = 0.0f;
 
 	public:
 		RectF();
@@ -17,9 +17,9 @@ class RectF {
 		void setW(float _w);
 		void setH(float _h);
 
-		const float getX();
-		const float getY();
-		const float getW();
-		const float getH();
+		float getX() const;
+		float getY() const;
+		float getW() const;
+		float getH() const;
 };
 #endif

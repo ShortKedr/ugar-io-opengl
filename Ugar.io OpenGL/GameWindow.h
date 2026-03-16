@@ -12,8 +12,8 @@ namespace GameWindow
 	static const  int WINDOW_WIDTH = 800;
 	static const  int WINDOW_HEIGHT = 600;
 
-	const int GetScreenWidth();
-	const int GetScreenHeight();
+	int GetScreenWidth();
+	int GetScreenHeight();
 
 	void ResizeOrtho(int w, int h);
 	void Initialize(int argc, char** argv);

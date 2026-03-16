@@ -2,11 +2,11 @@
 
 Game* game = new Game();
 
-const int GameWindow::GetScreenWidth() {
+int GameWindow::GetScreenWidth() {
 	return GetSystemMetrics(SM_CXSCREEN);
 }
 
-const int GameWindow::GetScreenHeight() {
+int GameWindow::GetScreenHeight() {
 	return GetSystemMetrics(SM_CYSCREEN);
 }
 

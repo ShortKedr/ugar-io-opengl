@@ -1,10 +1,9 @@
 #include "GLBasics.h"
 #include "Color.h"
 #include <GL/freeglut.h>
-#define _USE_MATH_DEFINES
-#include <math.h>
-
-#include <iostream>
+#include <cmath>
+#include <cstring>
+#include <numbers>
 
 void GLBasics::DrawCircle(float x, float y, float radius, Color* color, int segments)
 {
@@ -18,8 +17,9 @@ void GLBasics::DrawCircle(float x, float y, float radius, Color* color, int segm
 	glBegin(GL_POLYGON);
 	float step = 360.0f / (float)segments;
 	for (int i = 0; i < segments; i++) {
-		drawX = x + cosf((i*step) / (180.0f / M_PI))*radius;
-		drawY = y + sinf((i*step) / (180.0f / M_PI))*radius;
+		const float angle = (i * step) * (std::numbers::pi_v<float> / 180.0f);
+		drawX = x + std::cos(angle) * radius;
+		drawY = y + std::sin(angle) * radius;
 		glVertex2f(drawX, drawY);
 	}
 	glEnd();
@@ -43,16 +43,17 @@ void GLBasics::DrawStartText(float x, float y, Color* color, float a, float scal
 	float letterHeight = 40.0f * scale;
 	float letterOffset = 4;
 
-	float width = (letterWidth + letterOffset) * strlen(text) - letterOffset;
+	const std::size_t textLength = std::strlen(text);
+	float width = (letterWidth + letterOffset) * static_cast<float>(textLength) - letterOffset;
 	float height = letterHeight;
 
 	Color* c = color->normalized();
 	glColor4f(c->r, c->g, c->b, a);
 	delete c;
 
-	for (int i = 0; i < strlen(text); i++) {
+	for (std::size_t i = 0; i < textLength; i++) {
 		if (text[i] == ' ') continue;
-		float zx = x - width / 2 + i * (letterWidth + letterOffset);
+		float zx = x - width / 2 + static_cast<float>(i) * (letterWidth + letterOffset);
 		float zy = y - letterHeight / 2;
 		float width = letterWidth;
 		float height = letterHeight;

@@ -39,22 +39,22 @@ void RectF::setH(float _h)
 	h = _h;
 }
 
-const float RectF::getX()
+float RectF::getX() const
 {
 		return x;
 }
 
-const float RectF::getY()
+float RectF::getY() const
 {
 		return y;
 }
 
-const float RectF::getW()
+float RectF::getW() const
 {
 		return w;
 }
 
-const float RectF::getH()
+float RectF::getH() const
 {
 		return h;
 }

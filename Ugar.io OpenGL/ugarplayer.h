@@ -23,10 +23,10 @@ public:
 	void KeyboardEvent();
 
 private:
-   bool upKey;// = false;
-   bool downKey;// = false;
-   bool leftKey;// = false;
-   bool rightKey;// = false;
+   bool upKey = false;
+   bool downKey = false;
+   bool leftKey = false;
+   bool rightKey = false;
 
 };
 

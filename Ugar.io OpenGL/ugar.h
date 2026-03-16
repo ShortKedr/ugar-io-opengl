@@ -9,21 +9,21 @@ class Ugar {
 
 public:
 
-    Vector2 *position = nullptr;
+    Vector2 position;
 
     float radius = 0.5f;
     float showedRadius = 0.5f;
 
-    Vector2 *currentSpeed = nullptr;
+    Vector2 currentSpeed;
     float currentSpeedInc = 0.5f;
 
-    Color *color = nullptr;
+    Color color;
 
-    RectF *drawingRect = nullptr;
+    RectF drawingRect;
 
 
     Ugar();
-    Ugar(Vector2 *_position, float _radius);
+    Ugar(const Vector2& _position, float _radius);
     virtual ~Ugar();
 
     virtual void Update();

@@ -1,4 +1,5 @@
 #include "game.h"
+#include <memory>
 #include <ctime>
 #include <cstdlib>
 #include "Color.h"
@@ -21,98 +22,116 @@ const float Game::NORMAL_SCALE_RADIUS= 60.0f;
 Game::Game()
 {
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
-
-    isStarted = false;
-	objectControlTimer = 0;
-
-    cam = new Camera(new Vector2(640, 480), new Vector2(320, 240), 1.0f);
+    cam = std::make_unique<Camera>(Vector2(640, 480), Vector2(320, 240), 1.0f);
 
     for (int i = 0; i < VERT_LINE_AMOUNT; i++) {
-        Color *color = (i == 0 || i == VERT_LINE_AMOUNT - 1) ? new Color(0, 0, 0) : new Color(240, 240, 240);
-        vertLines[i] = new Line(new Vector2((i*200), 0), new Vector2((i*200), 4000.0), color);
+        Color color = (i == 0 || i == VERT_LINE_AMOUNT - 1) ? Color(0, 0, 0) : Color(240, 240, 240);
+        Vector2 start((i * 200), 0);
+        Vector2 end((i * 200), 4000.0f);
+        vertLines[i] = std::make_unique<Line>(start, end, color);
     }
 
     for (int i = 0; i < HORZ_LINE_AMOUNT; i++) {
-        Color *color = (i == 0 || i == HORZ_LINE_AMOUNT - 1) ? new Color(0, 0, 0) : new Color(240, 240, 240);
-        horzLines[i] = new Line(new Vector2(0, (i*200)), new Vector2(4000.0, (i*200)), color);
+        Color color = (i == 0 || i == HORZ_LINE_AMOUNT - 1) ? Color(0, 0, 0) : Color(240, 240, 240);
+        Vector2 start(0, (i * 200));
+        Vector2 end(4000.0f, (i * 200));
+        horzLines[i] = std::make_unique<Line>(start, end, color);
     }
 
-    if (isStarted) ugars[0] = new UgarPlayer(new Vector2(std::rand() % (int)(GAME_FIELD_WIDTH/2.0f) + GAME_FIELD_WIDTH/2.0f, std::rand() % (int)(GAME_FIELD_HEIGHT/2.0f) + GAME_FIELD_HEIGHT/2.0f), 5.0f);
-	else ugars[0] = nullptr;
+    if (isStarted) {
+        Vector2 playerPosition(std::rand() % (int)(GAME_FIELD_WIDTH/2.0f) + GAME_FIELD_WIDTH/2.0f, std::rand() % (int)(GAME_FIELD_HEIGHT/2.0f) + GAME_FIELD_HEIGHT/2.0f);
+        ugars[0] = std::make_unique<UgarPlayer>(playerPosition, 5.0f);
+    }
 	for (int i = 1; i < UGAR_AMOUNT; i++){
-        ugars[i] = new UgarAI(new Vector2(std::rand() % (int)(GAME_FIELD_WIDTH/2.0f) + GAME_FIELD_WIDTH/2.0f, std::rand() % (int)(GAME_FIELD_HEIGHT/2.0f) + GAME_FIELD_HEIGHT/2.0f), 5.0f);
-        static_cast<UgarAI*>(ugars[i])->AssignAIData(foods, FOOD_AMOUNT, ugars, UGAR_AMOUNT);
+        Vector2 aiPosition(std::rand() % (int)(GAME_FIELD_WIDTH/2.0f) + GAME_FIELD_WIDTH/2.0f, std::rand() % (int)(GAME_FIELD_HEIGHT/2.0f) + GAME_FIELD_HEIGHT/2.0f);
+        ugars[i] = std::make_unique<UgarAI>(aiPosition, 5.0f);
     }
     for (int i = 0; i < FOOD_AMOUNT; i++){
-        foods[i] = new Food(2.0f, new Vector2(std::rand() % (int)(GAME_FIELD_WIDTH), std::rand() % (int)(GAME_FIELD_HEIGHT)));
+        Vector2 foodPosition(std::rand() % (int)(GAME_FIELD_WIDTH), std::rand() % (int)(GAME_FIELD_HEIGHT));
+        foods[i] = std::make_unique<Food>(2.0f, foodPosition);
+    }
+    SyncAllRefs();
+    for (int i = 1; i < UGAR_AMOUNT; i++){
+        static_cast<UgarAI*>(ugars[i].get())->AssignAIData(foodRefs.data(), FOOD_AMOUNT, ugarRefs.data(), UGAR_AMOUNT);
     }
 }
 
 Game::~Game()
 {
-    delete cam;
-    for (int i = 0; i < UGAR_AMOUNT; i++)
-        delete ugars[i];
-    for (int i = 0; i < FOOD_AMOUNT; i++)
-        delete foods[i];
-    for (int i = 0; i < VERT_LINE_AMOUNT; i++)
-        delete vertLines[i];
-    for (int i = 0; i < HORZ_LINE_AMOUNT; i++)
-        delete horzLines[i];
+}
+
+void Game::SyncUgarRef(int index)
+{
+    ugarRefs[index] = ugars[index].get();
+}
+
+void Game::SyncFoodRef(int index)
+{
+    foodRefs[index] = foods[index].get();
+}
+
+void Game::SyncAllRefs()
+{
+    for (int i = 0; i < UGAR_AMOUNT; i++) {
+        SyncUgarRef(i);
+    }
+    for (int i = 0; i < FOOD_AMOUNT; i++) {
+        SyncFoodRef(i);
+    }
 }
 
 void Game::Update()
 {
 
     if (ugars[0] != nullptr && isStarted){
-        cam->observedPosition->x = cam->observedPosition->x + (ugars[0]->position->x - cam->observedPosition->x) * CAMERA_LERP;
-        cam->observedPosition->y = cam->observedPosition->y + (ugars[0]->position->y - cam->observedPosition->y) * CAMERA_LERP;
+        cam->observedPosition.x = cam->observedPosition.x + (ugars[0]->position.x - cam->observedPosition.x) * CAMERA_LERP;
+        cam->observedPosition.y = cam->observedPosition.y + (ugars[0]->position.y - cam->observedPosition.y) * CAMERA_LERP;
 
         float requiredScale = 0.0f;
-        if (ugars[0]->radius < 60.0f) requiredScale = (cam->viewportSize->y / NORMAL_SCALE_RESOLUTION);
-        else requiredScale = (cam->viewportSize->y / NORMAL_SCALE_RESOLUTION) * (NORMAL_SCALE_RADIUS / (int)(ugars[0]->radius));
+        if (ugars[0]->radius < 60.0f) requiredScale = (cam->viewportSize.y / NORMAL_SCALE_RESOLUTION);
+        else requiredScale = (cam->viewportSize.y / NORMAL_SCALE_RESOLUTION) * (NORMAL_SCALE_RADIUS / (int)(ugars[0]->radius));
         cam->scale += (requiredScale - cam->scale) * SCALE_LERP;
     } else if (ugars[1] != nullptr) {
-        cam->observedPosition->x = cam->observedPosition->x + (ugars[1]->position->x - cam->observedPosition->x) * CAMERA_LERP;
-        cam->observedPosition->y = cam->observedPosition->y + (ugars[1]->position->y - cam->observedPosition->y) * CAMERA_LERP;
+        cam->observedPosition.x = cam->observedPosition.x + (ugars[1]->position.x - cam->observedPosition.x) * CAMERA_LERP;
+        cam->observedPosition.y = cam->observedPosition.y + (ugars[1]->position.y - cam->observedPosition.y) * CAMERA_LERP;
 
         float requiredScale = 0.0f;
-        if (ugars[1]->radius < 60.0f) requiredScale = (cam->viewportSize->y / NORMAL_SCALE_RESOLUTION);
-        else requiredScale = (cam->viewportSize->y / NORMAL_SCALE_RESOLUTION) * (NORMAL_SCALE_RADIUS / (int)(ugars[1]->radius));
+        if (ugars[1]->radius < 60.0f) requiredScale = (cam->viewportSize.y / NORMAL_SCALE_RESOLUTION);
+        else requiredScale = (cam->viewportSize.y / NORMAL_SCALE_RESOLUTION) * (NORMAL_SCALE_RADIUS / (int)(ugars[1]->radius));
         cam->scale += (requiredScale - cam->scale) * SCALE_LERP;
     }
 
     for (int i = 0; i < UGAR_AMOUNT; i++){
         if (ugars[i] == nullptr) continue;
         ugars[i]->Update();
-        if (ugars[i]->position->x - ugars[i]->radius < 0) ugars[i]->position->x = ugars[i]->radius;
-        if (ugars[i]->position->x + ugars[i]->radius > GAME_FIELD_WIDTH) ugars[i]->position->x = GAME_FIELD_WIDTH - ugars[i]->radius;
-        if (ugars[i]->position->y - ugars[i]->radius < 0) ugars[i]->position->y = ugars[i]->radius;
-        if (ugars[i]->position->y + ugars[i]->radius > GAME_FIELD_HEIGHT) ugars[i]->position->y = GAME_FIELD_HEIGHT - ugars[i]->radius;
+        if (ugars[i]->position.x - ugars[i]->radius < 0) ugars[i]->position.x = ugars[i]->radius;
+        if (ugars[i]->position.x + ugars[i]->radius > GAME_FIELD_WIDTH) ugars[i]->position.x = GAME_FIELD_WIDTH - ugars[i]->radius;
+        if (ugars[i]->position.y - ugars[i]->radius < 0) ugars[i]->position.y = ugars[i]->radius;
+        if (ugars[i]->position.y + ugars[i]->radius > GAME_FIELD_HEIGHT) ugars[i]->position.y = GAME_FIELD_HEIGHT - ugars[i]->radius;
 
         for (int j = 0; j < UGAR_AMOUNT; j++){
-            if (ugars[j] == nullptr || ugars[i] == nullptr || ugars[j] == ugars[i]) continue;
+            if (ugars[j] == nullptr || ugars[i] == nullptr || ugars[j].get() == ugars[i].get()) continue;
             bool isLesser = false;
-            if (ugars[i]->CheckCollision(ugars[j], &isLesser)){
+            if (ugars[i]->CheckCollision(ugars[j].get(), &isLesser)){
                 if (isLesser){
                     ugars[j]->SetSquare(ugars[j]->GetSquare() + ugars[i]->GetSquare());
 					if (i==0) isStarted = false;
-                    if (ugars[i]) delete ugars[i];
-                    ugars[i] = nullptr;
+                    ugars[i].reset();
+                    SyncUgarRef(i);
                 } else {
                     ugars[i]->SetSquare(ugars[j]->GetSquare() + ugars[i]->GetSquare());
 					if (j==0) isStarted = false;
-                    if (ugars[j]) delete ugars[j];
-                    ugars[j] = nullptr;
+                    ugars[j].reset();
+                    SyncUgarRef(j);
                 }
             }
         }
         for (int j = 0; j < FOOD_AMOUNT; j++){
             if (foods[j] == nullptr) continue;
-            if (ugars[i] != nullptr && ugars[i]->CheckFoodCollision(foods[j])) {
+            if (ugars[i] != nullptr && ugars[i]->CheckFoodCollision(foods[j].get())) {
                 ugars[i]->SetSquare(ugars[i]->GetSquare() + foods[j]->GetSquare());
-                if (foods[j]) delete foods[j];
-                foods[j] = nullptr;
+                foods[j].reset();
+                SyncFoodRef(j);
             }
         }
     }
@@ -149,17 +168,25 @@ void Game::ObjectControlUpdate()
     int count = 0;
     for (int i = 0; i < FOOD_AMOUNT; i++) {
         if (foods[i] == nullptr && count < 50) {
-            foods[i] = new Food(2.0f, new Vector2(std::rand() % (int)(GAME_FIELD_WIDTH), std::rand() % (int)(GAME_FIELD_HEIGHT)));
+            Vector2 foodPosition(std::rand() % (int)(GAME_FIELD_WIDTH), std::rand() % (int)(GAME_FIELD_HEIGHT));
+            foods[i] = std::make_unique<Food>(2.0f, foodPosition);
+            SyncFoodRef(i);
             count++;
         }
     }
 
     count = 0;
-    if (ugars[0] == nullptr && isStarted) ugars[0] = new UgarPlayer(new Vector2(std::rand() % (int)(GAME_FIELD_WIDTH/2.0f) + GAME_FIELD_WIDTH/2.0f, std::rand() % (int)(GAME_FIELD_HEIGHT/2.0f) + GAME_FIELD_HEIGHT/2.0f), 5.0f);
+    if (ugars[0] == nullptr && isStarted) {
+        Vector2 playerPosition(std::rand() % (int)(GAME_FIELD_WIDTH/2.0f) + GAME_FIELD_WIDTH/2.0f, std::rand() % (int)(GAME_FIELD_HEIGHT/2.0f) + GAME_FIELD_HEIGHT/2.0f);
+        ugars[0] = std::make_unique<UgarPlayer>(playerPosition, 5.0f);
+        SyncUgarRef(0);
+    }
     for (int i = 1; i < UGAR_AMOUNT; i++) {
         if (ugars[i] == nullptr && count < 2) {
-            ugars[i] = new UgarAI(new Vector2(std::rand() % (int)(GAME_FIELD_WIDTH/2.0f) + GAME_FIELD_WIDTH/2.0f, std::rand() % (int)(GAME_FIELD_HEIGHT/2.0f) + GAME_FIELD_HEIGHT/2.0f), 5.0f);
-            static_cast<UgarAI*>(ugars[i])->AssignAIData(foods, FOOD_AMOUNT, ugars, UGAR_AMOUNT);
+            Vector2 aiPosition(std::rand() % (int)(GAME_FIELD_WIDTH/2.0f) + GAME_FIELD_WIDTH/2.0f, std::rand() % (int)(GAME_FIELD_HEIGHT/2.0f) + GAME_FIELD_HEIGHT/2.0f);
+            ugars[i] = std::make_unique<UgarAI>(aiPosition, 5.0f);
+            SyncUgarRef(i);
+            static_cast<UgarAI*>(ugars[i].get())->AssignAIData(foodRefs.data(), FOOD_AMOUNT, ugarRefs.data(), UGAR_AMOUNT);
             count++;
         }
     }
@@ -201,9 +228,8 @@ void Game::Draw()
     }
 
     if (!isStarted){
-		Color* textColor = new Color(0, 0, 0);
-		GLBasics::DrawStartText(glutGet(GLUT_WINDOW_WIDTH) / 2, 100, textColor);
-		GLBasics::DrawStartText(glutGet(GLUT_WINDOW_WIDTH) / 2, 100+2, textColor, 0.25f, 1.015f);
-		delete textColor;
+		Color textColor(0, 0, 0);
+		GLBasics::DrawStartText(glutGet(GLUT_WINDOW_WIDTH) / 2, 100, &textColor);
+		GLBasics::DrawStartText(glutGet(GLUT_WINDOW_WIDTH) / 2, 100+2, &textColor, 0.25f, 1.015f);
     }
 }

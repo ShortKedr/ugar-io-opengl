@@ -7,16 +7,16 @@ class Line {
 
 public:
 
-    Vector2 *start = nullptr;
-    Vector2 *end = nullptr;
-    Color *color = nullptr;
+    Vector2 start;
+    Vector2 end;
+    Color color;
 
-    Vector2* drawableStart = nullptr;
-    Vector2* drawableEnd = nullptr;
+    Vector2 drawableStart;
+    Vector2 drawableEnd;
 
 
     Line();
-    Line(Vector2 *_start, Vector2 *_end, Color *_color);
+    Line(const Vector2& _start, const Vector2& _end, const Color& _color);
 
     ~Line();
 

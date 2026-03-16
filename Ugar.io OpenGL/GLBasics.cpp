@@ -7,9 +7,8 @@
 
 void GLBasics::DrawCircle(float x, float y, float radius, Color* color, int segments)
 {
-	Color* c = color->normalized();
-	glColor3f(c->r, c->g, c->b);
-	delete c;
+	const Color c = color->normalized();
+	glColor3f(c.r, c.g, c.b);
 
 	float drawX = 0.0f;
 	float drawY = 0.0f;
@@ -27,9 +26,8 @@ void GLBasics::DrawCircle(float x, float y, float radius, Color* color, int segm
 
 void GLBasics::DrawLine(float x1, float y1, float x2, float y2, Color * color)
 {
-	Color* c = color->normalized();
-	glColor3f(c->r, c->g, c->b);
-	delete c;
+	const Color c = color->normalized();
+	glColor3f(c.r, c.g, c.b);
 	glBegin(GL_LINES);
 	glVertex2f(x1, y1);
 	glVertex2f(x2, y2);
@@ -47,9 +45,8 @@ void GLBasics::DrawStartText(float x, float y, Color* color, float a, float scal
 	float width = (letterWidth + letterOffset) * static_cast<float>(textLength) - letterOffset;
 	float height = letterHeight;
 
-	Color* c = color->normalized();
-	glColor4f(c->r, c->g, c->b, a);
-	delete c;
+	const Color c = color->normalized();
+	glColor4f(c.r, c.g, c.b, a);
 
 	for (std::size_t i = 0; i < textLength; i++) {
 		if (text[i] == ' ') continue;

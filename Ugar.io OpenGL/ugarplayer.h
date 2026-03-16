@@ -14,7 +14,7 @@ public:
 
 
     UgarPlayer();
-    UgarPlayer(Vector2 *_position, float _radius);
+    UgarPlayer(const Vector2& _position, float _radius);
 
     ~UgarPlayer();
 

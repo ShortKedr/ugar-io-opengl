@@ -11,7 +11,7 @@ class Color
 		~Color();
 
 		void setRGB(float _r, float _g, float _b);
-		Color* normalized(float normalize = 1.0f);
+		Color normalized(float normalize = 1.0f) const;
 
 		
 };

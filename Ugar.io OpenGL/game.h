@@ -1,5 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
+#include <array>
+#include <memory>
 #include "camera.h"
 #include "ugar.h"
 #include "food.h"
@@ -27,12 +29,12 @@ class Game
 
 public:
 
-	Camera* cam;
-    Ugar* ugars[UGAR_AMOUNT];
-    Food* foods[FOOD_AMOUNT];
+	std::unique_ptr<Camera> cam;
+    std::array<std::unique_ptr<Ugar>, UGAR_AMOUNT> ugars;
+    std::array<std::unique_ptr<Food>, FOOD_AMOUNT> foods;
 
-    Line* vertLines[VERT_LINE_AMOUNT];
-    Line* horzLines[HORZ_LINE_AMOUNT];
+    std::array<std::unique_ptr<Line>, VERT_LINE_AMOUNT> vertLines;
+    std::array<std::unique_ptr<Line>, HORZ_LINE_AMOUNT> horzLines;
 
     Game();
     ~Game();
@@ -48,6 +50,12 @@ private:
     static const int OBJ_CONTROL_UPDATE_TIME = 300;
     int objectControlTimer = 0;
     bool isStarted = false;
+    std::array<Ugar*, UGAR_AMOUNT> ugarRefs{};
+    std::array<Food*, FOOD_AMOUNT> foodRefs{};
+
+    void SyncUgarRef(int index);
+    void SyncFoodRef(int index);
+    void SyncAllRefs();
 };
 
 #endif // GAME_H

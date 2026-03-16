@@ -8,14 +8,14 @@ class Food {
 public:
 
     float radius = 0.5f;
-    Vector2 *position = nullptr;
-    Color *color = nullptr;
+    Vector2 position;
+    Color color;
 
-    RectF *drawingRect = nullptr;
+    RectF drawingRect;
 
 
     Food();
-    Food(float _radius, Vector2 *_position);
+    Food(float _radius, const Vector2& _position);
 
     ~Food();
 

@@ -8,7 +8,7 @@ public:
     bool isAgressive = false;
 
     UgarAI();
-    UgarAI(Vector2* _position, float _radius);
+    UgarAI(const Vector2& _position, float _radius);
 
     ~UgarAI();
 
@@ -26,7 +26,7 @@ private:
     int ugars_count = 0;
 
 
-    float pointDist(Vector2 *first, Vector2 *second);
+    float pointDist(const Vector2& first, const Vector2& second);
 };
 
 #endif // UGARAI_H

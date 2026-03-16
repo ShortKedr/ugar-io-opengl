@@ -6,21 +6,21 @@ class Camera {
 
 public:
 
-    Vector2 *viewportSize = nullptr;
-	Vector2 *observedPosition = nullptr;
+    Vector2 viewportSize;
+	Vector2 observedPosition;
     float scale = 1.0f;
 
 
     Camera();
-    Camera(Vector2 *vs, Vector2 *op, float _scale = 1.0f);
+    Camera(const Vector2& vs, const Vector2& op, float _scale = 1.0f);
 
     ~Camera();
 
     float GetNormalXOffset();
     float GetNormalYOffset();
 
-    void SetCamera(Vector2 *vs, Vector2 *op);
-    void SetCamera(Vector2 *vs, Vector2 *op, float _scale);
+    void SetCamera(const Vector2& vs, const Vector2& op);
+    void SetCamera(const Vector2& vs, const Vector2& op, float _scale);
 
 };
 

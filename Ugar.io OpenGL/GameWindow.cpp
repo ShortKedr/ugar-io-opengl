@@ -1,6 +1,9 @@
 #include "GameWindow.h"
+#include <memory>
 
-Game* game = new Game();
+namespace {
+std::unique_ptr<Game> game = std::make_unique<Game>();
+}
 
 int GameWindow::GetScreenWidth() {
 	return GetSystemMetrics(SM_CXSCREEN);
@@ -11,8 +14,8 @@ int GameWindow::GetScreenHeight() {
 }
 
 void GameWindow::ResizeOrtho(int w, int h) {
-	game->cam->viewportSize->x = w;
-	game->cam->viewportSize->y = h;
+	game->cam->viewportSize.x = static_cast<float>(w);
+	game->cam->viewportSize.y = static_cast<float>(h);
 	glViewport(0, 0, w, h);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();

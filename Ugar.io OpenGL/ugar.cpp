@@ -18,53 +18,39 @@ const float Ugar::MAX_SPEED_SIZE_DEC = 0.35f;
 const float Ugar::SPEED_SIZE_DEC = 0.005f;
 
 Ugar::Ugar() {
-	position = new Vector2();
 	radius = 0.0f;
     showedRadius = 0.0f;
-	currentSpeed = new Vector2();
 	currentSpeedInc = 0.0f;
-	color = new Color(0, 0, 0);
-	drawingRect = new RectF(0, 0, 0 ,0);
 }
 
-Ugar::Ugar(Vector2*_position, float _radius)
+Ugar::Ugar(const Vector2& _position, float _radius)
 {
-	position = new Vector2();
     showedRadius = 0.0f;
-	currentSpeed = new Vector2();
 	currentSpeedInc = 0.0f;
-	drawingRect = new RectF(0, 0, 0 ,0);
-
-	color = new Color(0, 0, 0);
+	color = Color(0, 0, 0);
     color->setRGB(std::rand() % 256, std::rand() % 256, std::rand() % 256);
-    *position = *_position;
+    position = _position;
     radius = _radius;
 }
 
-Ugar::~Ugar()
-{
-    if (position) delete position;
-    if (currentSpeed) delete currentSpeed;
-    if (color) delete color;
-    if (drawingRect) delete drawingRect;
-}
+Ugar::~Ugar() = default;
 
 void Ugar::Update()
 {
     UpdateSize();
     UpdateSpeedInc();
-    position->x = position->x + currentSpeed->x;
-    position->y = position->y + currentSpeed->y;
-    currentSpeed->x = currentSpeed->x - currentSpeed->x * FRICTION;
-    currentSpeed->y = currentSpeed->y - currentSpeed->y * FRICTION;
+    position.x = position.x + currentSpeed.x;
+    position.y = position.y + currentSpeed.y;
+    currentSpeed.x = currentSpeed.x - currentSpeed.x * FRICTION;
+    currentSpeed.y = currentSpeed.y - currentSpeed.y * FRICTION;
 }
 
 void Ugar::UpdateDrawingRect(float xoffset, float yoffset, float scale)
 {
-    drawingRect->setX((position->x - showedRadius) * scale - xoffset);
-    drawingRect->setY((position->y - showedRadius) * scale - yoffset);
-    drawingRect->setW(showedRadius * 2.0f * scale);
-    drawingRect->setH(showedRadius * 2.0f * scale);
+    drawingRect.setX((position.x - showedRadius) * scale - xoffset);
+    drawingRect.setY((position.y - showedRadius) * scale - yoffset);
+    drawingRect.setW(showedRadius * 2.0f * scale);
+    drawingRect.setH(showedRadius * 2.0f * scale);
 }
 
 void Ugar::UpdateSpeedInc()
@@ -81,8 +67,8 @@ void Ugar::UpdateSize()
 
 bool Ugar::CheckFoodCollision(Food *target)
 {
-    float xDist = position->x - target->position->x;
-    float yDist = position->y - target->position->y;
+    float xDist = position.x - target->position.x;
+    float yDist = position.y - target->position.y;
 
     float dist = std::sqrt(xDist*xDist + yDist*yDist);
     float collisionDist = radius + (target->radius*0.6f);
@@ -92,16 +78,16 @@ bool Ugar::CheckFoodCollision(Food *target)
 
 void Ugar::SetPosition(float x, float y)
 {
-    position->x = x;
-    position->y = y;
+    position.x = x;
+    position.y = y;
 }
 
 void Ugar::Move(float x, float y)
 {
     UpdateSpeedInc();
     float sum = std::fabs(x) + std::fabs(y);
-    currentSpeed->x = currentSpeed->x + ((sum != 0.0f) ? x/sum : 0) * currentSpeedInc;
-    currentSpeed->y = currentSpeed->y + ((sum != 0.0f) ? y/sum : 0) * currentSpeedInc;
+    currentSpeed.x = currentSpeed.x + ((sum != 0.0f) ? x/sum : 0) * currentSpeedInc;
+    currentSpeed.y = currentSpeed.y + ((sum != 0.0f) ? y/sum : 0) * currentSpeedInc;
 }
 
 void Ugar::MoveDirection(float direction)
@@ -111,8 +97,8 @@ void Ugar::MoveDirection(float direction)
     float ymul = (INVERT_Y) ? -std::sin(radians) : std::sin(radians);
 
     UpdateSpeedInc();
-    currentSpeed->x = currentSpeed->x + currentSpeedInc * xmul;
-    currentSpeed->y = currentSpeed->y + currentSpeedInc * ymul;
+    currentSpeed.x = currentSpeed.x + currentSpeedInc * xmul;
+    currentSpeed.y = currentSpeed.y + currentSpeedInc * ymul;
 }
 
 float Ugar::GetSquare() {
@@ -125,13 +111,13 @@ void Ugar::SetSquare(float square)
 }
 
 void Ugar::Draw() {
-	GLBasics::DrawCircle(drawingRect->getX()+ drawingRect->getW()/2.0f, drawingRect->getY() + drawingRect->getH() / 2.0f, drawingRect->getH() / 2.0f, color, (int)(16.0f * (showedRadius/5.0f)));
+	GLBasics::DrawCircle(drawingRect.getX()+ drawingRect.getW()/2.0f, drawingRect.getY() + drawingRect.getH() / 2.0f, drawingRect.getH() / 2.0f, &color, (int)(16.0f * (showedRadius/5.0f)));
 };
 
 bool Ugar::CheckCollision(Ugar *target, bool *isLesser)
 {
-    float xDist = position->x - target->position->x;
-    float yDist = position->y - target->position->y;
+    float xDist = position.x - target->position.x;
+    float yDist = position.y - target->position.y;
 
     float dist = std::sqrt(xDist*xDist + yDist*yDist);
     float collisionDist = (radius > target->radius) ? radius + (target->radius*0.6f) : (radius * 0.6f) + target->radius;

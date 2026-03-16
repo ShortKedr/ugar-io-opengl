@@ -26,8 +26,8 @@ void Color::setRGB(float _r, float _g, float _b)
 	b = _b;
 }
 
-Color * Color::normalized(float normalize)
+Color Color::normalized(float normalize) const
 {
 	float max = 255.0f;
-	return new Color((r / max)*normalize, (g / max)*normalize, (b / max)*normalize);
+	return Color((r / max)*normalize, (g / max)*normalize, (b / max)*normalize);
 }

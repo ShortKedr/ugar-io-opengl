@@ -9,7 +9,7 @@ UgarPlayer::UgarPlayer()
 
 }
 
-UgarPlayer::UgarPlayer(Vector2 *_position, float _radius)
+UgarPlayer::UgarPlayer(const Vector2& _position, float _radius)
     : Ugar (_position, _radius) {
 
 }

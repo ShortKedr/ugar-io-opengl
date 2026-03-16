@@ -10,7 +10,7 @@ UgarAI::UgarAI()
 
 }
 
-UgarAI::UgarAI(Vector2 *_position, float _radius)
+UgarAI::UgarAI(const Vector2& _position, float _radius)
     : Ugar (_position, _radius) {
 
 }
@@ -61,18 +61,18 @@ void UgarAI::Update()
 
     if (isAgressive){
         if (minDUgarDist < minUgarDist){
-            if (nearDUgar != nullptr) Move(position->x - nearDUgar->position->x, position->y - nearDUgar->position->y);
+            if (nearDUgar != nullptr) Move(position.x - nearDUgar->position.x, position.y - nearDUgar->position.y);
         } else{
-            if (nearUgar != nullptr) Move(nearUgar->position->x - position->x, nearUgar->position->y - position->y);
+            if (nearUgar != nullptr) Move(nearUgar->position.x - position.x, nearUgar->position.y - position.y);
         }
 
     } else {
         if (minDUgarDist < minUgarDist && minDUgarDist < minFoodDist) {
-            if (nearDUgar != nullptr) Move(position->x - nearDUgar->position->x, position->y - nearDUgar->position->y);
+            if (nearDUgar != nullptr) Move(position.x - nearDUgar->position.x, position.y - nearDUgar->position.y);
         } else if (minUgarDist < minFoodDist) {
-            if (nearUgar != nullptr) Move(nearUgar->position->x - position->x, nearUgar->position->y - position->y);
+            if (nearUgar != nullptr) Move(nearUgar->position.x - position.x, nearUgar->position.y - position.y);
         } else {
-            if (nearFood != nullptr) Move(nearFood->position->x - position->x, nearFood->position->y - position->y);
+            if (nearFood != nullptr) Move(nearFood->position.x - position.x, nearFood->position.y - position.y);
         }
 
     }
@@ -86,9 +86,9 @@ void UgarAI::AssignAIData(Food **_foods, int _foods_count, Ugar **_ugars, int _u
     ugars_count = _ugars_count;
 }
 
-float UgarAI::pointDist(Vector2 *first, Vector2 *second)
+float UgarAI::pointDist(const Vector2& first, const Vector2& second)
 {
-    const float dx = first->x - second->x;
-    const float dy = first->y - second->y;
+    const float dx = first.x - second.x;
+    const float dy = first.y - second.y;
     return std::sqrt(dx * dx + dy * dy);
 }
